@@ -1,0 +1,10 @@
+@CHARSET "UTF-8";
+
+body {
+	margin: 40px;
+	padding: 60px;
+}
+
+.tab {
+	min-height: 200px;
+}

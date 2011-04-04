@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>SVG Demos</title>
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">
+	google.load("jquery", "1.5.2");
+	google.load("jqueryui", "1.8.11");
+</script>
+<script src="jquery.svg/jquery.svg.js"></script>
+<script src="svgweb/svg.js" data-path="svgweb"></script>
+<script>
+	$(document).ready(function() {
+		$(".tab h1, h2, h3").each(function(i) {
+			var current = $(this).text();
+			var id = $(this).parent().attr("id");
+			$("#nav #menu").append($("<li/>").append($("<a/>", {
+				"href" : "#" + id,
+				"title" : $(this).text(),
+				text : $(this).html()
+			})));
+		});
+
+		$("#tabs").tabs({
+			event : "mouseover"
+		});
+	});
+</script>
+<link rel="stylesheet" href="css/base.css" type="text/css" media="all" />
+<link rel="stylesheet"
+	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css"
+	type="text/css" media="all" />
+<link rel="stylesheet" href="jquery.svg/jquery.svg.css" type="text/css"
+	media="all" />
+</head>
+<body>
+	<h1>SVG Demos</h1>
+	<div id="tabs">
+		<div id="nav">
+			<ul id="menu"></ul>
+		</div>
+		<div class="tab" id="jquerysvg">
+			<h2>jQuery SVG</h2>
+			<div class="actions">
+				<a href="#" id="red">Make lines red</a>
+			</div>
+			<div id="canvas"></div>
+			<script>
+				$(function() {
+					$('#jquerysvg #canvas').svg();
+					var svg = $('#jquerysvg #canvas').svg('get');
+					svg.load('svg/chaos.svg',
+							{
+								addTo : $('#jquerysvg #canvas'),
+								changeSize : true,
+								onLoad : function(svg, error) {
+									svg.text(10, 20, error || 'Loaded into '
+											+ this.id);
+								}
+							});
+					resetSize(svg);
+				});
+				$("#jquerysvg .actions #red").click(function() {
+					// make lines red
+					var svg = $('#jquerysvg #canvas').svg('get');
+					$('polygon', svg.root()).attr('stroke', 'red');
+				});
+			</script>
+		</div>
+		<div class="tab" id="svgweb">
+			<h2>SVG Web</h2>
+			<!-- Add jQuery workarounds for IE less than v9 here:
+					data attribute should be src
+					type attribute should be classid
+			-->
+			<object data="svg/chaos.svg" type="image/svg+xml" width="800"
+				height="600" id="mySVGObject"> </object>
+		</div>
+		<div class="tab" id="embed">
+			<h2>Embed</h2>
+			<embed src="svg/chaos.svg" type="image/svg+xml" width="800"
+				height="600" pluginspage="http://www.adobe.com/svg/viewer/install/" />
+		</div>
+		<div class="tab" id="iframe">
+			<h2>Iframe</h2>
+			<iframe src="svg/chaos.svg" width="800" height="600"></iframe>
+		</div>
+		<!-- 
+		<div class="tab" id="raphael">
+			<h2>Raphael</h2>
+			<p>Cannot get Raphael to load external SVG files. Tried SVG
+				Converter, loading via jQuery AJAX and then parsing it into XML.</p>
+
+			<script src="js/raphael.js"></script>
+			<script src="js/svgConverter.js"></script>
+		</div>
+		-->
+		<!-- 
+		<div class="tab" id="inline">
+			<h2>Inline</h2>
+			<p>Inline sample removed due to inability to easily update the
+				SVG by the design team.</p>
+		</div>
+		-->
+	</div>
+	<br class="clear" />
+</body>
+</html>
